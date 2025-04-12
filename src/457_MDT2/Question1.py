@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# Question 1 - Flow Nets for Potential Fields
+# Question 1 - Flow Nets for Potential Fields:
 print("Question 1 - Flow Nets for Potential Fields\n")
 
-# Part a: Description of flux, potential variable, and material parameter
+# Part a: Description of flux, potential variable, and material parameter.
 print("Part a: Description and definition (SI units) of flux variable f, potential variable φ, and material parameter α:\n")
 
 print("i. Steady state groundwater flow")
@@ -24,7 +24,7 @@ print("     SI units: V (volts)")
 print("   - Material parameter (α): Electrical conductivity")
 print("     SI units: S/m (siemens per meter)\n")
 
-# Part b: Isotropy, homogeneity, and changes to equations
+# Part b: Isotropy, homogeneity, and changes to equations.
 print("Part b: Concepts of isotropy and homogeneity; how equations change:\n")
 
 print("   - Isotropy: Material properties are the same in all directions.")
@@ -39,7 +39,7 @@ print("\n   Changes to equations:")
 print("   - Anisotropic: f = -α ⋅ ∇φ,   ∇ ⋅ (α ⋅ ∇φ) + s = 0   (α is a tensor)")
 print("   - Heterogeneous: ∇ ⋅ (α(x, y, z) ⋅ ∇φ) + s = 0   (α varies with position), Laplace equation no longer applies\n")
 
-# Part c: Flow net construction assumptions and rules
+# Part c: Flow net construction assumptions and rules.
 print("Part c: Assumptions and rules for constructing flow nets:\n")
 
 # i. Definition of equipotentials and flow lines
@@ -53,11 +53,29 @@ print("ii. Equipotentials and flow lines are orthogonal (perpendicular) to each 
 print("iii. Common boundary conditions:")
 print("   - Constant head (Dirichlet): equipotentials follow the boundary.")
 print("   - No-flow (Neumann): flow lines are parallel to the boundary.")
+print("   - source / sink (mixed): flow lines converge/diverge at the source/sink location.")
+print("   - Fixed potential: equipotentials are fixed at the boundary.")
 
 # iv. Curvilinear squares
-print("iv. In isotropic materials, flow nets should form 'curvilinear squares' between equipotentials and flow lines.\n")
+print("iv. In isotropic and homogenous materials, flow nets should form 'curvilinear squares' between equipotentials and flow lines.\n")
 
-#part d: Flow net construction rules
+
+#part d: Flow net construction rules.
+
+print("Case I: α1 = α2")
+print(" - Uniform conductivity across all layers.")
+print(" - Flow lines and equipotentials are symmetric and evenly spaced.")
+print(" - Flux is distributed uniformly between source and sink.\n")
+
+print("Case II: α1 = 0.1 * α2 (target layer is more conductive)")
+print(" - Most of the flux is concentrated in the central high conductivity layer (α2).")
+print(" - Equipotentials are closely spaced in α2 due to the high gradient.")
+print(" - Flow lines bend toward α2, flattening vertically after scaling.\n")
+
+print("Case III: α1 = 10 * α2 (target layer is less conductive)")
+print(" - Low conductivity layer (α2) resists flow.")
+print(" - Flow lines curve around α2 into adjacent layers (α1).")
+print(" - Equipotentials are sparse in α2; flux is diverted away.\n")
 
 def plot_flow_net(case, alpha1, alpha2, title):
     fig, ax = plt.subplots(figsize=(8, 6))
@@ -107,23 +125,6 @@ plot_flow_net("Case I", alpha1=1, alpha2=1, title='α1 = α2')
 plot_flow_net("Case II", alpha1=0.1, alpha2=1, title='α1 = 0.1α2')
 plot_flow_net("Case III", alpha1=10, alpha2=1, title='α1 = 10α2')
 
-
-print("Case I: α1 = α2")
-print(" - Uniform conductivity across all layers.")
-print(" - Flow lines and equipotentials are symmetric and evenly spaced.")
-print(" - Flux is distributed uniformly between source and sink.\n")
-
-print("Case II: α1 = 0.1 * α2 (target layer is more conductive)")
-print(" - Most of the flux is concentrated in the central high conductivity layer (α2).")
-print(" - Equipotentials are closely spaced in α2 due to the high gradient.")
-print(" - Flow lines bend toward α2, flattening vertically after scaling.\n")
-
-print("Case III: α1 = 10 * α2 (target layer is less conductive)")
-print(" - Low conductivity layer (α2) resists flow.")
-print(" - Flow lines curve around α2 into adjacent layers (α1).")
-print(" - Equipotentials are sparse in α2; flux is diverted away.\n")
-
-print("Note: These are qualitative representations—actual sketches must be drawn by hand or visualized using software.\n")
 
 # Part e: Comparing tomography estimates for Cases II and III
 print("Part e: Which case provides better estimates for α2?\n")
