@@ -140,3 +140,25 @@ if vs_vp_range[0] <= vs_vp_ratio_velocities <= vs_vp_range[1] and vs_vp_range[0]
     print("vs/vp ratio is plausible for granite.")
 else:
     print("vs/vp ratio is NOT plausible for granite.")
+
+# Set Poisson's ratio to 0.5 for an incompressible material
+poissons_ratio_incompressible = 0.5
+
+# Calculate the Bulk Modulus (K), Shear Modulus (G), and P-wave Modulus (M) using the incompressible Poisson's ratio
+bulk_modulus_incompressible = youngs_modulus / (3 * (1 - 2 * poissons_ratio_incompressible))
+shear_modulus_incompressible = youngs_modulus / (2 * (1 + poissons_ratio_incompressible))
+lame_parameter_incompressible = (youngs_modulus * poissons_ratio_incompressible) / \
+                                ((1 + poissons_ratio_incompressible) * (1 - 2 * poissons_ratio_incompressible))
+p_wave_modulus_incompressible = lame_parameter_incompressible + 2 * shear_modulus_incompressible
+
+# For incompressible material, P-wave velocity (v_p) tends to infinity, and S-wave velocity (v_s) becomes zero
+p_wave_velocity_incompressible = np.inf  # As K -> infinity
+s_wave_velocity_incompressible = 0.0  # As G -> 0
+
+# Output the results for the incompressible case
+print(f"\nIncompressible Material (Poisson's Ratio = 0.5):")
+print(f"Bulk Modulus (K) (theoretically infinite): {bulk_modulus_incompressible / 1e9:.2f} GPa")
+print(f"Shear Modulus (G) (zero for incompressible material): {shear_modulus_incompressible / 1e9:.2f} GPa")
+print(f"P-wave Modulus (M): {p_wave_modulus_incompressible / 1e9:.2f} GPa")
+print(f"P-wave Velocity (v_p): Infinite")
+print(f"S-wave Velocity (v_s): 0 km/s")
