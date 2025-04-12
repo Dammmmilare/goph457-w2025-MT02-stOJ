@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 # Question 1 - Flow Nets for Potential Fields
 print("Question 1 - Flow Nets for Potential Fields\n")
@@ -55,8 +57,56 @@ print("   - No-flow (Neumann): flow lines are parallel to the boundary.")
 # iv. Curvilinear squares
 print("iv. In isotropic materials, flow nets should form 'curvilinear squares' between equipotentials and flow lines.\n")
 
-# Part d: Conceptual flow net descriptions for three conductivity cases
-print("Part d: Cross-borehole tomography - Flow net sketches (conceptual description):\n")
+#part d: Flow net construction rules
+
+def plot_flow_net(case, alpha1, alpha2, title):
+    fig, ax = plt.subplots(figsize=(8, 6))
+    x = np.linspace(-1, 1, 100)
+    y = np.linspace(-1, 1, 100)
+    X, Y = np.meshgrid(x, y)
+
+    # Adjust Y scaling only for plotting purposes (not physical coordinates)
+    Y_scaled = Y.copy()
+    if alpha1 != alpha2:
+        scale_factor = alpha1 / alpha2
+        Y_scaled = np.where(
+            (Y > -0.33) & (Y < 0.33),  # center layer remains the same
+            Y,
+            Y * scale_factor          # scale top and bottom layers
+        )
+
+    # Compute potential field (φ = log(r))
+    R = np.sqrt(X**2 + Y_scaled**2) + 1e-6
+    Phi = np.log(R)
+
+    # Compute gradient of potential (flow vector f = -grad(φ))
+    Fx, Fy = np.gradient(-Phi)
+
+    # Plot flow lines (streamlines)
+    ax.streamplot(X, Y, Fx, Fy, color='blue', density=1.0, arrowsize=1)
+
+    # Plot equipotential lines (contours of φ)
+    contour = ax.contour(X, Y, Phi, levels=15, colors='red', linestyles='dashed')
+    ax.clabel(contour, inline=True, fontsize=8, fmt='%.1f')
+
+    # Indicate source and sink boreholes
+    ax.plot(-0.8, 0, 'ko', label='Source')
+    ax.plot(0.8, 0, 'k*', label='Sink')
+
+    ax.set_title(f'Flow Net - {title}')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.legend()
+    ax.set_aspect('equal')
+    ax.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
+plot_flow_net("Case I", alpha1=1, alpha2=1, title='α1 = α2')
+plot_flow_net("Case II", alpha1=0.1, alpha2=1, title='α1 = 0.1α2')
+plot_flow_net("Case III", alpha1=10, alpha2=1, title='α1 = 10α2')
+
 
 print("Case I: α1 = α2")
 print(" - Uniform conductivity across all layers.")
